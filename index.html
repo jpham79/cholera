@@ -1,0 +1,40 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>1854 Cholera Outbreak Visualized</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css">
+  <link rel="stylesheet" href="index.css">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="index.js"></script>
+</head>
+
+<body>
+  <div class="ui menu">
+    <a class="active item" id="a" onclick="visibility(this, 'attacks')">Attack Rates</a>
+    <a class="item" id="f" onclick="visibility(this, 'fatalities')">Fatalities</a>
+    <a class="item" id="c" onclick="visibility(this, 'census')">Census Data</a>
+    <a class="item" id="m" onclick="visibility(this, 'map')">Map</a>
+  </div>
+
+  <div class="section" id="attacks">
+    <iframe class="frame" src="attacks/attacks.html"  frameborder=0>Your browser doesn't support iframes</iframe>
+  </div>
+
+  <iframe class="ui container" id="fatalities" src="fatalities/fatalities.html" frameborder=0>Your browser doesn't support iframes</iframe>
+
+  <iframe class="ui container" id="census" src="census/census.html" frameborder=0>Your browser doesn't support iframes</iframe>
+
+  <iframe class="ui container" id="map" src="map/map.html" frameborder=0>Your browser doesn't support iframes/iframe>
+
+</body>
+
+</html>
