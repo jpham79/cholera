@@ -7,22 +7,75 @@ let unpack = (rows, key) => {
 }
 
 let process = (data) => {
-    for (let i = 0; i<data.length; i++) {
-        data[i].total = parseInt(data[i].Attack) + parseInt(data[i].Death);
-    }
-    let header = [["Date"], ["Attack"], ["Death"], ["total"]];
-    let contents = [];
 
+    let dates = [];
+    let attacks = [];
+    let deaths = [];
+    let atotal = [];
+    let dtotal = [];
+    let contents = [];
+    let header = [["Date"], ["Attack"], ["Death"], ["total"]];
+
+    for (let i = 0; i<data.length; i++) {
+        dates[i] = data[i].Date;
+        attacks[i] = data[i].Attack;
+        deaths[i] = data[i].Death;
+        data[i].total = parseInt(data[i].Attack) + parseInt(data[i].Death);
+        atotal[i] = 0;
+        dtotal[i] = 0;
+
+        for (let j = 0; j <= i; j++) {
+            atotal[i] += parseInt(data[j].Attack);
+            dtotal[i] += parseInt(data[j].Death);
+        }
+    }
+    
     for (let i = 0; i < header.length; i++) {
         content = unpack(data, header[i]);       
         contents[i] = content;
     }
 
-    var info = [{
+    let trace1= {
+        x: dates,
+        y: attacks,
+        mode: 'lines',
+        name: 'Attacks'
+    };
+
+    let trace2 = {
+        x: dates,
+        y: deaths,
+        mode: 'lines',
+        name: 'Deaths'
+    };
+
+    let trace3 = {
+        x: dates,
+        y: atotal,
+        mode: 'lines',
+        name: 'Cumulative Attacks'
+    };
+
+    let trace4 = {
+        x: dates,
+        y: dtotal,
+        mode: 'lines',
+        name: 'Cumulative Deaths'
+    };
+
+    let layout = {
+        title: "Cholera Attacks and Deaths"
+    };
+
+    let lines = [trace1, trace2, trace3, trace4];
+
+    Plotly.newPlot('line', lines, layout);
+
+    let info = [{
         type: 'table',
         columnwidth:[200, 200, 200, 200],
         header: {
-          values: [["Date"], ["Cholera Attacks"], ["Cholera Deaths"], ["Total Cholera Incidents"]],
+          values: [["Date"], ["Attacks"], ["Deaths"], ["Total Cholera Incidents"]],
           align: "center",
           line: {width: 1, color: 'rgb(50, 50, 50)'},
           fill: {color: ['rgb(235, 100, 230)']},
@@ -35,8 +88,12 @@ let process = (data) => {
           font: {family: "Arial", size: 11, color: ["black"]}
         }
       }]
-      
-      Plotly.plot('table', info);
+
+      layout = {
+          title: "Cholera Attacks and Deaths Data"
+      };
+     
+      Plotly.plot('table', info, layout);
 }
 
 makeplot();
