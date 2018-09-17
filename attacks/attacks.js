@@ -14,7 +14,7 @@ let process = (data) => {
     let atotal = [];
     let dtotal = [];
     let contents = [];
-    let header = [["Date"], ["Attack"], ["Death"], ["total"]];
+    let header = [["Date"], ["Attack"], ["Death"], ["total"], ["atotal"], ["dtotal"]];
 
     for (let i = 0; i<data.length; i++) {
         dates[i] = data[i].Date;
@@ -28,6 +28,9 @@ let process = (data) => {
             atotal[i] += parseInt(data[j].Attack);
             dtotal[i] += parseInt(data[j].Death);
         }
+
+        data[i].atotal = atotal[i];
+        data[i].dtotal = dtotal[i];
     }
     
     for (let i = 0; i < header.length; i++) {
@@ -65,6 +68,8 @@ let process = (data) => {
 
     let layout = {
         title: "Cholera Attacks and Deaths"
+        // plot_bgcolor: "#000000",
+        // paper_bgcolor: "#000000"
     };
 
     let lines = [trace1, trace2, trace3, trace4];
@@ -73,13 +78,12 @@ let process = (data) => {
 
     let info = [{
         type: 'table',
-        columnwidth:[200, 200, 200, 200],
         header: {
-          values: [["Date"], ["Attacks"], ["Deaths"], ["Total Cholera Incidents"]],
+          values: [["Date"], ["Attacks"], ["Deaths"], ["Total Incidents"], ["Cumulative Attacks"], ["Cumulative Deaths"]],
           align: "center",
           line: {width: 1, color: 'rgb(50, 50, 50)'},
-          fill: {color: ['rgb(235, 100, 230)']},
-          font: {family: "Arial", size: 11, color: "white"}
+          fill: {color: ['rgb(46, 50, 54)']},
+          font: {family: "Arial", size: 14, color: "white"}
         },
         cells: {
           values: contents,
@@ -90,7 +94,7 @@ let process = (data) => {
       }]
 
       layout = {
-          title: "Cholera Attacks and Deaths Data"
+          title: "Cholera Attacks and Deaths in London Data"
       };
      
       Plotly.plot('table', info, layout);
