@@ -11,13 +11,13 @@
 }
 
 #fatalities {
-    display: none;
+    display: initial;
 }
 
 #census {
-    display: none;
+    display: initial;
 }
 
 #map {
-    display: none;
+    display: initial;
 }

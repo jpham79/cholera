@@ -21,6 +21,3 @@ let visibility = (obj, id) => {
     content.style = "display: block";
 
 }
-
-
-
