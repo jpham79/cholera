@@ -18,6 +18,7 @@ let visibility = (obj, id) => {
 
     active[0].classList.remove("active");
     obj.className = ("active item");
-    content.style.display = "";
+    console.log(content);
+    content.style.display = 'block';
 
 }
