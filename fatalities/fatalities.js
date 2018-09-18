@@ -7,20 +7,39 @@ let unpack = (rows, key) => {
 }
 
 let process = (data) => {
-
-    let dates = [];
-    let attacks = [];
-    let deaths = [];
-    let atotal = [];
-    let dtotal = [];
+    let width = parent.innerWidth;
     let contents = [];
     let header = [["age"], ["male"], ["female"]];
     let name = [["Age"], ["Male Deaths"], ["Female Deaths"]];
     
     for (let i = 0; i < header.length; i++) {
-        content = unpack(data, header[i]);       
+        content = unpack(data, header[i]);              
         contents[i] = content;
     }
+    
+    let trace1 = {
+        x: contents[0],
+        y: contents[1],
+        type: 'bar',
+        name: 'Male Deaths'
+    };
+
+    let trace2 = {
+        x: contents[0],
+        y: contents[2],
+        type: 'bar',
+        name: 'Female Deaths'
+    }
+
+    let layout = {
+        title: 'Cholera Deaths in Naples',
+        barmode: 'group',
+        width: width
+    };
+
+    let bar = [trace1, trace2];
+
+    Plotly.newPlot('bar', bar, layout );
 
     let info = [{
         type: 'table',
@@ -38,9 +57,9 @@ let process = (data) => {
           font: {family: "Arial", size: 11, color: ["black"]}
         }
       }]
-      let width = parent.innerWidth;
+
       layout = {
-          title: "Cholera Death in Naples per 10,000 Inhabitants Data",
+          title: "Cholera Deaths in Naples Data",
           width: width
       };
      

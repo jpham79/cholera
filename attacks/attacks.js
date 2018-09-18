@@ -7,19 +7,12 @@ let unpack = (rows, key) => {
 }
 
 let process = (data) => {
-
-    let dates = [];
-    let attacks = [];
-    let deaths = [];
     let atotal = [];
     let dtotal = [];
     let contents = [];
     let header = [["Date"], ["Attack"], ["Death"], ["total"], ["atotal"], ["dtotal"]];
 
     for (let i = 0; i<data.length; i++) {
-        dates[i] = data[i].Date;
-        attacks[i] = data[i].Attack;
-        deaths[i] = data[i].Death;
         data[i].total = parseInt(data[i].Attack) + parseInt(data[i].Death);
         atotal[i] = 0;
         dtotal[i] = 0;
@@ -39,37 +32,35 @@ let process = (data) => {
     }
 
     let trace1= {
-        x: dates,
-        y: attacks,
+        x: contents[0],
+        y: contents[1],
         mode: 'lines',
         name: 'Attacks'
     };
 
     let trace2 = {
-        x: dates,
-        y: deaths,
+        x: contents[0],
+        y: contents[2],
         mode: 'lines',
         name: 'Deaths'
     };
 
     let trace3 = {
-        x: dates,
-        y: atotal,
+        x: contents[0],
+        y: contents[3],
         mode: 'lines',
         name: 'Cumulative Attacks'
     };
 
     let trace4 = {
-        x: dates,
-        y: dtotal,
+        x: contents[0],
+        y: contents[4],
         mode: 'lines',
         name: 'Cumulative Deaths'
     };
 
     let layout = {
         title: "Cholera Attacks and Deaths"
-        // plot_bgcolor: "#000000",
-        // paper_bgcolor: "#000000"
     };
 
     let lines = [trace1, trace2, trace3, trace4];
