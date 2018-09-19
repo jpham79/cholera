@@ -6,8 +6,25 @@ let unpack = (rows, key) => {
     return rows.map((row) => {return row[key];});
 }
 
+let table = () => {
+    let table = document.getElementById('table');
+    let width = 100,
+        height = 100;
+    
+    let t = Plotly.d3.select(table)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',
+    
+            height: height + 'vh',
+            'margin-top': (100 - height) / 2 + 'vh'
+        });
+
+    return t.node();
+}
+
 let process = (data) => {
-    let width = parent.innerWidth;
+
     let contents = [];
     let header = [["age"], ["male"], ["female"], ["total"]];
     let name = [["Age"], ["Males"], ["Females"], ["Combined Population"]];
@@ -39,11 +56,14 @@ let process = (data) => {
       }]
 
       layout = {
-          title: "UK Census Age Data 1851",
-          width: width
+          title: "UK Census Age Data 1851"
       };
      
-      Plotly.newPlot('table', info, layout);
+      Plotly.newPlot(table(), info, layout);
+
+      window.onresize = function() {
+        Plotly.Plots.resize(table());
+    };
 }
 
 makeplot();

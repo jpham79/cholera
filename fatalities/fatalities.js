@@ -1,3 +1,5 @@
+let width = 100, height = 50;
+
 let makeplot = () => {
     return Plotly.d3.tsv("../data/naplesCholeraAgeSexData.tsv", (data) => { process(data) } );
 }
@@ -7,16 +9,46 @@ let unpack = (rows, key) => {
 }
 
 let process = (data) => {
-    let width = parent.innerWidth;
+
     let contents = [];
     let header = [["age"], ["male"], ["female"]];
-    let name = [["Age"], ["Male Deaths"], ["Female Deaths"]];
-    
+ 
     for (let i = 0; i < header.length; i++) {
         content = unpack(data, header[i]);              
         contents[i] = content;
     }
+
+    processTable(contents);
+    processBar(contents);
+}
+
+let table = () => {
+    let table = document.getElementById('table');
+    let x = Plotly.d3.select(table)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
+let bar = () => {
+    let bar = document.getElementById('bar');
+
     
+    let x = Plotly.d3.select(bar)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
+let processBar = (contents) => {
     let trace1 = {
         x: contents[0],
         y: contents[1],
@@ -33,13 +65,16 @@ let process = (data) => {
 
     let layout = {
         title: 'Cholera Deaths in Naples',
-        barmode: 'group',
-        width: width
+        barmode: 'group'
     };
 
     let bar = [trace1, trace2];
 
     Plotly.newPlot('bar', bar, layout );
+}
+
+let processTable = (contents) => {
+    let name = [["Age"], ["Male Deaths"], ["Female Deaths"]];
 
     let info = [{
         type: 'table',
@@ -59,11 +94,15 @@ let process = (data) => {
       }]
 
       layout = {
-          title: "Cholera Deaths in Naples Data",
-          width: width
+          title: "Cholera Deaths in Naples Data"
       };
      
       Plotly.newPlot('table', info, layout);
+}
+
+window.onresize = function() {
+    Plotly.Plots.resize(table());
+    Plotly.Plots.resize(bar());
 }
 
 makeplot();
