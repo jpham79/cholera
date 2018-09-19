@@ -10,6 +10,7 @@ let visibility = (obj, id) => {
             break;
         case 'c':
             document.getElementById("census").style = "display: none";
+            document.getElementById("censusTable").style = "display: none";
             break;
         case 'm':
             document.getElementById("map").style = "display: none";
@@ -18,6 +19,9 @@ let visibility = (obj, id) => {
 
     active[0].classList.remove("active");
     obj.className = ("active item");
+    if (obj.id == 'c') {
+        document.getElementById("censusTable").style = "display: block";
+    }
     content.style = "display: block";
 
 }

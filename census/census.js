@@ -1,3 +1,4 @@
+let width = 50, height = 48;
 let makeplot = () => {
     return Plotly.d3.csv("../data/UKcensus1851.csv", (data) => { process(data) } );
 }
@@ -32,7 +33,6 @@ let process = (data) => {
     processPieF(contents);
     processPieT(total);
     processBar(contents);
-    processTable(contents, total);
 }
 
 let processPieM = (contents) => {
@@ -102,39 +102,7 @@ let processBar = (contents) => {
     Plotly.newPlot(bar(), bars, layout );
 }
 
-let processTable = (contents, total) => {
-    let name = [["Age"], ["Males"], ["Females"], ["Combined Population"]];
-    contents[0].push("Total Population");
-    contents[1].push(total.male);
-    contents[2].push(total.female);
-    contents[3].push(total.combined);
-    let info = [{
-        type: 'table',
-        header: {
-          values: name,
-          align: "center",
-          line: {width: 1, color: 'rgb(50, 50, 50)'},
-          fill: {color: ['rgb(46, 50, 54)']},
-          font: {family: "Arial", size: 14, color: "white"}
-        },
-        cells: {
-          values: contents,
-          align: "center",
-          line: {color: "black", width: 1},
-          font: {family: "Arial", size: 11, color: ["black"]}
-        }
-      }]
-
-      layout = {
-          title: "UK Census Age Data 1851"
-      };
-     
-      Plotly.newPlot(table(), info, layout);
-
-}
-
 let pieM = () => {
-    let width = 33, height = 50;
     let pieM = document.getElementById('pieM');
     let x = Plotly.d3.select(pieM)
         .style({
@@ -146,7 +114,6 @@ let pieM = () => {
 }
 
 let pieF = () => {
-    let width = 33, height = 50;
     let pieF = document.getElementById('pieF');
     let x = Plotly.d3.select(pieF)
         .style({
@@ -158,7 +125,10 @@ let pieF = () => {
 }
 
 let pieT = () => {
-    let width = 33, height = 50;
+    if (window.innerWidth < 1000 + 'px') {
+        width = 100, height = 50;
+    }
+
     let pieT = document.getElementById('pieT');
     let x = Plotly.d3.select(pieT)
         .style({
@@ -170,25 +140,10 @@ let pieT = () => {
 }
 
 let bar = () => {
-    let width = 100, height = 50;
     let bar = document.getElementById('bar');
     let x = Plotly.d3.select(bar)
         .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
-
-let table = () => {
-    let width = 100, height = 50;
-    let table = document.getElementById('table');
-    let x = Plotly.d3.select(table)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
+            width: width + '%',   
             height: height + 'vh'
         });
 
@@ -200,7 +155,6 @@ window.onresize = function() {
     Plotly.Plots.resize(pieF());
     Plotly.Plots.resize(pieT());
     Plotly.Plots.resize(bar());
-    Plotly.Plots.resize(table());
 };
 
 makeplot();

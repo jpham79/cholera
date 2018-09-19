@@ -1,7 +1,6 @@
-let width = 100, height = 48;
-
+let width = 100, height = 95;
 let makeplot = () => {
-    return Plotly.d3.tsv("../data/naplesCholeraAgeSexData.tsv", (data) => { process(data) } );
+    return Plotly.d3.csv("../data/UKcensus1851.csv", (data) => { process(data) } );
 }
 
 let unpack = (rows, key) => {
@@ -11,45 +10,36 @@ let unpack = (rows, key) => {
 let process = (data) => {
 
     let contents = [];
-    let header = [["age"], ["male"], ["female"]];
- 
+    let total = [];
+    total.male = 0;
+    total.female = 0;
+    total.combined = 0;
+    let header = [["age"], ["male"], ["female"], ["total"]];
+
+    for (let i = 0; i < data.length; i++) {
+        data[i].total = parseInt(data[i].male) + parseInt(data[i].female);        
+    }
     for (let i = 0; i < header.length; i++) {
         content = unpack(data, header[i]);              
         contents[i] = content;
     }
-
-    processTable(contents);
-    processBar(contents);
-}
-
-let processBar = (contents) => {
-    let trace1 = {
-        x: contents[0],
-        y: contents[1],
-        type: 'bar',
-        name: 'Male Deaths'
-    };
-
-    let trace2 = {
-        x: contents[0],
-        y: contents[2],
-        type: 'bar',
-        name: 'Female Deaths'
+    for(let i = 0; i < contents[1].length; i++) {
+        total.male += parseInt(contents[1][i]);
+        total.female += parseInt(contents[2][i]);
+        total.combined += parseInt(contents[3][i]);
     }
 
-    let layout = {
-        title: 'Cholera Deaths in Naples',
-        barmode: 'group'
-    };
-
-    let bars = [trace1, trace2];
-
-    Plotly.newPlot(bar(), bars, layout );
+    processTable(contents, total);
 }
 
-let processTable = (contents) => {
-    let name = [["Age"], ["Male Deaths"], ["Female Deaths"]];
 
+
+let processTable = (contents, total) => {
+    let name = [["Age"], ["Males"], ["Females"], ["Combined Population"]];
+    contents[0].push("Total Population");
+    contents[1].push(total.male);
+    contents[2].push(total.female);
+    contents[3].push(total.combined);
     let info = [{
         type: 'table',
         header: {
@@ -68,23 +58,13 @@ let processTable = (contents) => {
       }]
 
       layout = {
-          title: "Cholera Deaths in Naples Data"
+          title: "UK Census Age Data 1851"
       };
      
       Plotly.newPlot(table(), info, layout);
+
 }
 
-let bar = () => {
-    let bar = document.getElementById('bar');
-    let x = Plotly.d3.select(bar)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
 
 let table = () => {
     let table = document.getElementById('table');
@@ -99,8 +79,7 @@ let table = () => {
 }
 
 window.onresize = function() {
-    Plotly.Plots.resize(bar());
     Plotly.Plots.resize(table());
-}
+};
 
 makeplot();

@@ -4,6 +4,12 @@
     width: 100%;
 }
 
+.section2 {
+    position: relative;
+    height: 50%;
+    width: 100%;
+}
+
 .frame {
     position: absolute;
     height: 100%;
@@ -19,5 +25,9 @@
 }
 
 #map {
+    display: initial;
+}
+
+#censusTable {
     display: initial;
 }
