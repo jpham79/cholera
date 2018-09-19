@@ -37,58 +37,6 @@ let process = (data) => {
     processTable(contents);
 }
 
-let table = () => {
-    let table = document.getElementById('table');
-    let x = Plotly.d3.select(table)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
-
-let line = () => {
-    let line = document.getElementById('line');
-
-    
-    let x = Plotly.d3.select(line)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
-
-let processTable = (contents) => {
-
-    let info = [{
-        type: 'table',
-        header: {
-          values: [["Date"], ["Attacks"], ["Deaths"], ["Total Incidents"], ["Cumulative Attacks"], ["Cumulative Deaths"]],
-          align: "center",
-          line: {width: 1, color: 'rgb(50, 50, 50)'},
-          fill: {color: ['rgb(46, 50, 54)']},
-          font: {family: "Arial", size: 14, color: "white"}
-        },
-        cells: {
-          values: contents,
-          align: "center",
-          line: {color: "black", width: 1},
-          font: {family: "Arial", size: 11, color: ["black"]}
-        }
-      }]
-
-      layout = {
-          title: "Cholera Attacks and Deaths in London Data"
-      };
-     
-      Plotly.plot(table(), info, layout);
-}
-
 let processLine = (contents) => {
     let trace1= {
         x: contents[0],
@@ -127,9 +75,58 @@ let processLine = (contents) => {
     Plotly.newPlot(line(), lines, layout);
 }
 
+let processTable = (contents) => {
+    let info = [{
+        type: 'table',
+        header: {
+          values: [["Date"], ["Attacks"], ["Deaths"], ["Total Incidents"], ["Cumulative Attacks"], ["Cumulative Deaths"]],
+          align: "center",
+          line: {width: 1, color: 'rgb(50, 50, 50)'},
+          fill: {color: ['rgb(46, 50, 54)']},
+          font: {family: "Arial", size: 14, color: "white"}
+        },
+        cells: {
+          values: contents,
+          align: "center",
+          line: {color: "black", width: 1},
+          font: {family: "Arial", size: 11, color: ["black"]}
+        }
+      }]
+
+      layout = {
+          title: "Cholera Attacks and Deaths in London Data"
+      };
+     
+      Plotly.plot(table(), info, layout);
+}
+
+let line = () => {
+    let line = document.getElementById('line');  
+    let x = Plotly.d3.select(line)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
+let table = () => {
+    let table = document.getElementById('table');
+    let x = Plotly.d3.select(table)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
 window.onresize = function() {
-    Plotly.Plots.resize(table());
     Plotly.Plots.resize(line());
+    Plotly.Plots.resize(table());
 }
 
 makeplot();

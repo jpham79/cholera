@@ -22,32 +22,6 @@ let process = (data) => {
     processBar(contents);
 }
 
-let table = () => {
-    let table = document.getElementById('table');
-    let x = Plotly.d3.select(table)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
-
-let bar = () => {
-    let bar = document.getElementById('bar');
-
-    
-    let x = Plotly.d3.select(bar)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
-
 let processBar = (contents) => {
     let trace1 = {
         x: contents[0],
@@ -68,9 +42,9 @@ let processBar = (contents) => {
         barmode: 'group'
     };
 
-    let bar = [trace1, trace2];
+    let bars = [trace1, trace2];
 
-    Plotly.newPlot('bar', bar, layout );
+    Plotly.newPlot(bar(), bars, layout );
 }
 
 let processTable = (contents) => {
@@ -97,12 +71,36 @@ let processTable = (contents) => {
           title: "Cholera Deaths in Naples Data"
       };
      
-      Plotly.newPlot('table', info, layout);
+      Plotly.newPlot(table(), info, layout);
+}
+
+let bar = () => {
+    let bar = document.getElementById('bar');
+    let x = Plotly.d3.select(bar)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
+let table = () => {
+    let table = document.getElementById('table');
+    let x = Plotly.d3.select(table)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
 }
 
 window.onresize = function() {
-    Plotly.Plots.resize(table());
     Plotly.Plots.resize(bar());
+    Plotly.Plots.resize(table());
 }
 
 makeplot();

@@ -1,5 +1,3 @@
-
-
 let makeplot = () => {
     return Plotly.d3.csv("../data/UKcensus1851.csv", (data) => { process(data) } );
 }
@@ -12,8 +10,8 @@ let process = (data) => {
 
     let contents = [];
     let total = [];
-    total.totalM = 0;
-    total.totalF = 0;
+    total.male = 0;
+    total.female = 0;
     total.combined = 0;
     let header = [["age"], ["male"], ["female"], ["total"]];
 
@@ -25,18 +23,19 @@ let process = (data) => {
         contents[i] = content;
     }
     for(let i = 0; i < contents[1].length; i++) {
-        total.totalM += parseInt(contents[1][i]);
-        total.totalF += parseInt(contents[2][i]);
+        total.male += parseInt(contents[1][i]);
+        total.female += parseInt(contents[2][i]);
         total.combined += parseInt(contents[3][i]);
     }
 
-    processTable(contents, total);
-    processBar(contents);
-    proccessPieM(contents);
+    processPieM(contents);
     processPieF(contents);
+    processPieT(total);
+    processBar(contents);
+    processTable(contents, total);
 }
 
-let proccessPieM = (contents) => {
+let processPieM = (contents) => {
     let info = [{
         labels: contents[0],
         values: contents[1],
@@ -64,15 +63,50 @@ let processPieF = (contents) => {
     Plotly.newPlot(pieF(), info, layout);
 }
 
-let processBar = (contents) => {
+let processPieT = (total) => {
+    let info = [{
+        labels: [["Male"], [["Female"]]],
+        values: [total.male, total.female],
+        type: 'pie'
+    }];
 
+    let layout = {
+        title: 'Total Population By Gender'
+    };
+
+    Plotly.newPlot(pieT(), info, layout);
+}
+
+let processBar = (contents) => {
+    let trace1 = {
+        x: contents[0],
+        y: contents[1],
+        type: 'bar',
+        name: 'Males by Age Group'
+    };
+
+    let trace2 = {
+        x: contents[0],
+        y: contents[2],
+        type: 'bar',
+        name: 'Females by Age Group'
+    }
+
+    let layout = {
+        title: 'Population by Age and Gender',
+        barmode: 'group'
+    };
+
+    let bars = [trace1, trace2];
+
+    Plotly.newPlot(bar(), bars, layout );
 }
 
 let processTable = (contents, total) => {
     let name = [["Age"], ["Males"], ["Females"], ["Combined Population"]];
     contents[0].push("Total Population");
-    contents[1].push(total.totalM);
-    contents[2].push(total.totalF);
+    contents[1].push(total.male);
+    contents[2].push(total.female);
     contents[3].push(total.combined);
     let info = [{
         type: 'table',
@@ -99,19 +133,6 @@ let processTable = (contents, total) => {
 
 }
 
-let table = () => {
-    let width = 100, height = 50;
-    let table = document.getElementById('table');
-    let x = Plotly.d3.select(table)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
-
 let pieM = () => {
     let width = 33, height = 50;
     let pieM = document.getElementById('pieM');
@@ -136,10 +157,50 @@ let pieF = () => {
     return x.node();
 }
 
+let pieT = () => {
+    let width = 33, height = 50;
+    let pieT = document.getElementById('pieT');
+    let x = Plotly.d3.select(pieT)
+        .style({
+            width: width + '%',   
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
+let bar = () => {
+    let width = 100, height = 50;
+    let bar = document.getElementById('bar');
+    let x = Plotly.d3.select(bar)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
+let table = () => {
+    let width = 100, height = 50;
+    let table = document.getElementById('table');
+    let x = Plotly.d3.select(table)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
 window.onresize = function() {
-    Plotly.Plots.resize(table());
     Plotly.Plots.resize(pieM());
     Plotly.Plots.resize(pieF());
+    Plotly.Plots.resize(pieT());
+    Plotly.Plots.resize(bar());
+    Plotly.Plots.resize(table());
 };
 
 makeplot();
