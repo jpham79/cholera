@@ -1,4 +1,4 @@
-let width = 100, height = 48;
+let width = 95, height = 48;
 
 let makeplot = () => {
     return Plotly.d3.tsv("../data/naplesCholeraAgeSexData.tsv", (data) => { process(data) } );

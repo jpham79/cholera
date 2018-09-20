@@ -12,22 +12,26 @@
 
 .frame {
     position: absolute;
-    height: 100%;
+    height: 80%;
     width: 100%;
 }
 
 #fatalities {
-    display: initial;
+    display: none;
 }
 
 #census {
-    display: initial;
+    display: none;
 }
 
 #map {
-    display: initial;
+    display: none;
 }
 
 #censusTable {
-    display: initial;
+    display: none;
+}
+
+#about {
+    display: none;
 }

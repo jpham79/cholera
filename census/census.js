@@ -1,4 +1,4 @@
-let width = 50, height = 48;
+let width = 48, height = 48;
 let makeplot = () => {
     return Plotly.d3.csv("../data/UKcensus1851.csv", (data) => { process(data) } );
 }
