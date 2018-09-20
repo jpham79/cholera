@@ -18,33 +18,69 @@
 </head>
 
 <body>
-  <div class="ui menu">
+  <div class="ui teal menu">
     <a class="active item" id="a" onclick="visibility(this, 'attacks')">Attack Rates</a>
     <a class="item" id="f" onclick="visibility(this, 'fatalities')">Fatalities</a>
     <a class="item" id="c" onclick="visibility(this, 'census')">Census Data</a>
     <a class="item" id="m" onclick="visibility(this, 'map')">Map</a>
+    <a class="item" id="all" onclick="visibility(this, 'all')">Display All</a>
+    <a class="item" id="ab" onclick="show()">About</a>
+  </div>
+
+  <div class="ui container" id="about">
+    <h1>
+      About Cholera Data Visualization:
+    </h1>
+    <h3>
+      This data visualization was created by Justin Pham for ICS 484. This project visualizes data
+      from London's Cholera outbreak in 1854.
+      This data was gathered and compiled by Robin Wilson (robin@rtwilson.com, www.rtwilson.com/academic).
+      You can contact and find out more about me here: https://jpham79.github.io/
+      <br>
+    </h3>
   </div>
 
   <div class="section" id="attacks">
-    <iframe class="frame" src="attacks/attacks.html"  frameborder=0>Your browser doesn't support iframes</iframe>
+      <div class="ui container" id="attacks">
+          <h4> This chart displays information about the attack rates and deaths to Cholera in London from August 19, 1854 to
+            September 29, 1854. The line graph displays the information per day and cumulatively.
+          </h4>
+        </div>
+    <iframe class="frame" src="attacks/attacks.html" frameborder=0>Your browser doesn't support iframes</iframe>
   </div>
 
   <div class="section" id="fatalities">
-      <iframe class="frame" src="fatalities/fatalities.html" frameborder=0>Your browser doesn't support iframes</iframe>
+      <div class="ui container" id="fatalities">
+          <h4> This chart and bar graph displays Naples in the Time of Cholera 1884-1911.
+              It shows deaths per 10,000 inhabitants of each age group separated by gender.
+          </h4>
+        </div>
+    <iframe class="frame" src="fatalities/fatalities.html" frameborder=0>Your browser doesn't support iframes</iframe>
   </div>
 
-
   <div class="section" id="census">
+      <div class="ui container" id="census">
+          <h4> These pie charts and bar graph display the UK 1851 Census Data during the time of the Cholera attacks.
+            It is split by gender and age groups. Here you can see the distribution of London's population.
+          </h4>
+        </div>
     <iframe class="frame" src="census/census.html" frameborder=0>Your browser doesn't support iframes</iframe>
   </div>
 
   <div class="section2" id="censusTable">
-      <iframe class="frame" src="census/censusTable.html" frameborder=0>Your browser doesn't support iframes</iframe>
+    <iframe class="frame" src="census/censusTable.html" frameborder=0>Your browser doesn't support iframes</iframe>
   </div>
 
   <div class="section" id="map">
+      <div class="ui container" id="map">
+          <h4> This map displays cholera death locations in London(1854). Death locations are red circles and the 
+            size indicates the number of deaths. The locations of cholera pumps are marked in blue. By clicking on the 
+              red dots you are able to see how many people died in that location.
+          </h4>
+        </div>
     <iframe class="frame" src="map/map.html" frameborder=0>Your browser doesn't support iframes/iframe>
   </div>
+
 </body>
 
 </html>
