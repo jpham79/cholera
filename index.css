@@ -17,19 +17,19 @@
 }
 
 #fatalities {
-    display: initial;
+    display: none;
 }
 
 #census {
-    display: initial;
+    display: none;
 }
 
 #map {
-    display: initial;
+    display: none;
 }
 
 #censusTable {
-    display: initial;
+    display: none;
 }
 
 #about {
