@@ -21,14 +21,23 @@
 </head>
 
 <body>
-  <div class="ui teal menu">
+  <div class="ui stackable teal menu">
     <a class="active item" id="all" onclick="visibility(this, 'all')">Display All</a>
     <a class="item" id="a" onclick="visibility(this, 'attacks')">Attack Rates</a>
     <a class="item" id="f" onclick="visibility(this, 'fatalities')">Fatalities</a>
     <a class="item" id="c" onclick="visibility(this, 'census')">Census Data</a>
     <a class="item" id="m" onclick="visibility(this, 'map')">Map</a>
-    <a class="item" id="ab" onclick="show()">About</a>
+    <a class="item" id="modal" onclick="modal()">About</a>
   </div>
+
+  <div class="ui sidebar stackable teal menu">
+      <a class="active item" id="all" onclick="visibility(this, 'all')">Display All</a>
+      <a class="item" id="a" onclick="visibility(this, 'attacks')">Attack Rates</a>
+      <a class="item" id="f" onclick="visibility(this, 'fatalities')">Fatalities</a>
+      <a class="item" id="c" onclick="visibility(this, 'census')">Census Data</a>
+      <a class="item" id="m" onclick="visibility(this, 'map')">Map</a>
+      <a class="item" id="modal" onclick="modal()">About</a>
+    </div>
 
   <div class="ui container" id="about">
     <h1>
@@ -43,7 +52,7 @@
     </h3>
   </div>
 
-  <div id="attacks">
+  <section id="attacks">
     <div class="ui container">
       <h4> This chart displays information about the attack rates and deaths to Cholera in London from August 19, 1854
         to
@@ -52,9 +61,9 @@
     </div>
     <div id="attacksLine"></div>
     <div id="attacksTable"></div>
-  </div>
+  </section>
 
-  <div id="fatalities">
+  <section id="fatalities">
     <div class="ui container">
       <h4> This chart and bar graph displays Naples in the Time of Cholera 1884-1911.
         It shows deaths per 10,000 inhabitants of each age group separated by gender.
@@ -62,26 +71,26 @@
     </div>
     <div id="fatalitiesBar"></div>
     <div id="fatalitiesTable"></div>
-  </div>
+  </section>
 
-  <div id="census">
+  <section id="census">
     <div class="ui container">
       <h4> These pie charts and bar graph display the UK 1851 Census Data during the time of the Cholera attacks.
         It is split by gender and age groups. Here you can see the distribution of London's population.
       </h4>
     </div>
-    <div style="display: flex;">
+    <div id="flex">
       <div id="pieM"></div>
       <div id="pieF"></div>
     </div>
-    <div style="display: flex;">
+    <div>
       <div id="censusBar"></div>
       <div id="pieT"></div>
     </div>
     <div id="censusTable"></div>
-  </div>
+  </section>
 
-  <div id="map">
+  <section id="map">
     <div class="ui container">
       <h4> This map displays cholera death locations in London(1854). Death locations are red circles and the
         size indicates the number of deaths. The locations of cholera pumps are marked in blue. By clicking on the
@@ -99,7 +108,24 @@
         id: 'mapbox.streets'
       }).addTo(mymap);
     </script>
-  </div>
+  </section>
+
+  <div class="ui basic modal">
+      <!-- <div class="ui icon header">
+        <i class="archive icon"></i>
+        Archive Old Messages
+      </div> -->
+      <div class="content">
+        <p> This data visualization was created to show London's Cholera outbreak in 1854.
+            This data was gathered and compiled by Robin Wilson (robin@rtwilson.com, www.rtwilson.com/academic).</p>
+          <p>  You can contact and find out more about me here: <a href="https://jpham79.github.io/">jpham79.github.io</a></p>
+      </div>
+      <div class="actions">
+        <div class="ui red basic cancel inverted button">
+          <i class="remove icon"></i>
+        </div>
+      </div>
+    </div>
 
 </body>
 

@@ -1,25 +1,41 @@
-.section {
-    height: 100vh;
-    width: 100vw;
-    border: 1px solid darkgrey;
+body {
+
 }
 
-.frame {
-    position: absolute;
-    height: 80%;
-    width: 100%;
+#attacks {
+
 }
 
 #fatalities {
-    display: initial;
+    
+}
+
+/* #flex {
+    display: flex;
 }
 
 #census {
-    display: initial;
+    
 }
 
+#pieM{
+    flex: 50%;
+}
+
+#pieF{
+    flex: 50%;
+} */
+
 #map {
-    display: initial;
+    
+}
+
+#pieM {
+    flex: 50%;
+}
+
+#pieF {
+    flex: 50%;
 }
 
 #mapPlot {

@@ -43,24 +43,13 @@ let visibility = (obj, id) => {
     
 }
 
-function show() {
-    let about = document.getElementById("about").style.display;
-    if (about == "none") {
-        document.getElementById('about').style = "display: block";
-    } else {
-        document.getElementById('about').style = "display: none";
-    }
-    
-    
-}
-
-
+//DATA PROCESSING AND UNPACKING
 let read = () => {
-    Plotly.d3.tsv("/data/choleraDeaths.tsv", (data) => { processAttacks(data) } );
-    Plotly.d3.tsv("/data/naplesCholeraAgeSexData.tsv", (data) => { processFatalities(data) } );
-    Plotly.d3.csv("/data/UKcensus1851.csv", (data) => { processCensus(data) } );
-    Plotly.d3.csv("/data/choleraDeathLocations.csv", (data) => { processDeath(data) });
-    Plotly.d3.csv("/data/choleraPumpLocations.csv", (data) => { processPump(data) });
+    Plotly.d3.tsv("data/choleraDeaths.tsv", (data) => { processAttacks(data) } );
+    Plotly.d3.tsv("data/naplesCholeraAgeSexData.tsv", (data) => { processFatalities(data) } );
+    Plotly.d3.csv("data/UKcensus1851.csv", (data) => { processCensus(data) } );
+    Plotly.d3.csv("data/choleraDeathLocations.csv", (data) => { processDeath(data) });
+    Plotly.d3.csv("data/choleraPumpLocations.csv", (data) => { processPump(data) });
 }
 
 let unpack = (rows, key) => {
@@ -95,6 +84,98 @@ let processAttacks = (data) => {
     attacksLine(contents);
     attacksTable(contents);
 }
+
+let processFatalities = (data) => {
+
+    let contents = [];
+    let header = [["age"], ["male"], ["female"]];
+ 
+    for (let i = 0; i < header.length; i++) {
+        content = unpack(data, header[i]);              
+        contents[i] = content;
+    }
+
+    fatalitiesTable(contents);
+    fatalitiesBar(contents);
+}
+
+let processCensus = (data) => {
+
+    let contents = [];
+    let total = [];
+    total.male = 0;
+    total.female = 0;
+    total.combined = 0;
+    let header = [["age"], ["male"], ["female"], ["total"]];
+
+    for (let i = 0; i < data.length; i++) {
+        data[i].total = parseInt(data[i].male) + parseInt(data[i].female);        
+    }
+    for (let i = 0; i < header.length; i++) {
+        content = unpack(data, header[i]);              
+        contents[i] = content;
+    }
+    for(let i = 0; i < contents[1].length; i++) {
+        total.male += parseInt(contents[1][i]);
+        total.female += parseInt(contents[2][i]);
+        total.combined += parseInt(contents[3][i]);
+    }
+
+    censusPieM(contents);
+    censusPieF(contents);
+    censusPieT(total);
+
+    censusBar(contents);
+    contents[0].push("Total Population");
+    contents[1].push(total.male);
+    contents[2].push(total.female);
+    contents[3].push(total.combined);
+    censusTable(contents);
+}
+
+let processDeath = (data) => {
+    let contents = [];
+    let header = [["deaths"], ["long"], ["lat"]];
+    
+    for (let i = 0; i < header.length; i++) {
+        content = unpack(data, header[i]);       
+        contents[i] = content;
+    }
+
+    for (let i = 0; i < contents[2].length; i++) {
+        var circle = L.circle([contents[2][i], contents[1][i]], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: contents[0][i]
+        }).addTo(mymap);
+        circle.bindPopup(contents[0][i] + ' Deaths');
+    }
+    
+}
+
+let processPump = (data) => {
+    let contents = [];
+    let header = [["long"], ["lat"]];
+    
+    for (let i = 0; i < header.length; i++) {
+        content = unpack(data, header[i]);       
+        contents[i] = content;
+    }
+
+    for (let i = 0; i < contents[0].length; i++) {
+        var circle = L.circle([contents[1][i], contents[0][i]], {
+            color: 'blue',
+            fillColor: 'purple',
+            fillOpacity: 0.5,
+            radius: 5
+        }).addTo(mymap);
+        circle.bindPopup('Cholera Pump');
+    }
+    
+}
+
+//PLOTTING THE STUFF
 
 let attacksLine = (contents) => {
     let trace1= {
@@ -134,6 +215,7 @@ let attacksLine = (contents) => {
     Plotly.newPlot('attacksLine', lines, layout);
 }
 
+
 let attacksTable = (contents) => {
     let info = [{
         type: 'table',
@@ -157,45 +239,6 @@ let attacksTable = (contents) => {
       };
      
       Plotly.plot('attacksTable', info, layout);
-}
-
-let aline = () => {
-    let line = document.getElementById('attacksLine');  
-    let x = Plotly.d3.select(line)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
-
-let atable = () => {
-    let table = document.getElementById('attacksTable');
-    let x = Plotly.d3.select(table)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
-
-
-let processFatalities = (data) => {
-
-    let contents = [];
-    let header = [["age"], ["male"], ["female"]];
- 
-    for (let i = 0; i < header.length; i++) {
-        content = unpack(data, header[i]);              
-        contents[i] = content;
-    }
-
-    fatalitiesTable(contents);
-    fatalitiesBar(contents);
 }
 
 let fatalitiesBar = (contents) => {
@@ -249,65 +292,6 @@ let fatalitiesTable = (contents) => {
       };
      
       Plotly.newPlot('fatalitiesTable', info, layout);
-}
-
-let fbar = () => {
-    let bar = document.getElementById('fatalitiesBar');
-    let x = Plotly.d3.select(bar)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
-
-let ftable = () => {
-    let table = document.getElementById('fatalitiesTable');
-    let x = Plotly.d3.select(table)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
-
-    return x.node();
-}
-
-
-let processCensus = (data) => {
-
-    let contents = [];
-    let total = [];
-    total.male = 0;
-    total.female = 0;
-    total.combined = 0;
-    let header = [["age"], ["male"], ["female"], ["total"]];
-
-    for (let i = 0; i < data.length; i++) {
-        data[i].total = parseInt(data[i].male) + parseInt(data[i].female);        
-    }
-    for (let i = 0; i < header.length; i++) {
-        content = unpack(data, header[i]);              
-        contents[i] = content;
-    }
-    for(let i = 0; i < contents[1].length; i++) {
-        total.male += parseInt(contents[1][i]);
-        total.female += parseInt(contents[2][i]);
-        total.combined += parseInt(contents[3][i]);
-    }
-
-    censusPieM(contents);
-    censusPieF(contents);
-    censusPieT(total);
-
-    censusBar(contents);
-    contents[0].push("Total Population");
-    contents[1].push(total.male);
-    contents[2].push(total.female);
-    contents[3].push(total.combined);
-    censusTable(contents);
 }
 
 let censusPieM = (contents) => {
@@ -407,6 +391,59 @@ let censusTable = (contents) => {
 
 }
 
+//RESPONSIVE STUFF
+
+let width = 100;
+let height = 100;
+
+let aline = () => {
+    let line = document.getElementById('attacksLine');  
+    let x = Plotly.d3.select(line)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
+let atable = () => {
+    let table = document.getElementById('attacksTable');
+    let x = Plotly.d3.select(table)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
+let fbar = () => {
+    let bar = document.getElementById('fatalitiesBar');
+    let x = Plotly.d3.select(bar)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
+let ftable = () => {
+    let table = document.getElementById('fatalitiesTable');
+    let x = Plotly.d3.select(table)
+        .style({
+            width: width + '%',
+            'margin-left': (100 - width) / 2 + '%',    
+            height: height + 'vh'
+        });
+
+    return x.node();
+}
+
 let pieM = () => {
     let pieM = document.getElementById('pieM');
     let x = Plotly.d3.select(pieM)
@@ -455,67 +492,35 @@ let cbar = () => {
     return x.node();
 }
 
-
-
-
-
 let ctable = () => {
     let width = 100, height = 50;
     let table = document.getElementById('censusTable');
     let x = Plotly.d3.select(table)
         .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
+            width: width + '%',  
             height: height + 'vh'
         });
 
     return x.node();
 }
 
+// window.onresize = function() {
+//     Plotly.Plots.resize(aline());
+//     Plotly.Plots.resize(atable());
+//     Plotly.Plots.resize(fbar());
+//     Plotly.Plots.resize(ftable());
+//     Plotly.Plots.resize(pieM());
+//     Plotly.Plots.resize(pieF());
+//     Plotly.Plots.resize(pieT());
+//     Plotly.Plots.resize(cbar());
+//     Plotly.Plots.resize(ctable());
+// };
 
-
-let processDeath = (data) => {
-    let contents = [];
-    let header = [["deaths"], ["long"], ["lat"]];
-    
-    for (let i = 0; i < header.length; i++) {
-        content = unpack(data, header[i]);       
-        contents[i] = content;
-    }
-
-    for (let i = 0; i < contents[2].length; i++) {
-        var circle = L.circle([contents[2][i], contents[1][i]], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: contents[0][i]
-        }).addTo(mymap);
-        circle.bindPopup(contents[0][i] + ' Deaths');
-    }
-    
+function modal() {
+    $('.ui.basic.modal')
+  .modal('show')
+;
 }
-
-let processPump = (data) => {
-    let contents = [];
-    let header = [["long"], ["lat"]];
-    
-    for (let i = 0; i < header.length; i++) {
-        content = unpack(data, header[i]);       
-        contents[i] = content;
-    }
-
-    for (let i = 0; i < contents[0].length; i++) {
-        var circle = L.circle([contents[1][i], contents[0][i]], {
-            color: 'blue',
-            fillColor: 'purple',
-            fillOpacity: 0.5,
-            radius: 5
-        }).addTo(mymap);
-        circle.bindPopup('Cholera Pump');
-    }
-    
-}
-
 
 read();
 
