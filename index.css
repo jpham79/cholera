@@ -1,4 +1,41 @@
-body {
+#mobile {
+    display:none;
+}
+
+@media (max-width: 420px) {
+        #mobile {
+            display: block;
+            margin: 3vh;
+        }
+
+        #attacks {
+            margin-top: 0vh;
+        }
+
+        .ui.fixed.stackable.teal.menu {
+            display: none;
+        }
+}
+
+@media (min-width: 421px) {
+    #attacks{
+        margin-top: 5vh;
+    }
+
+    #fatalities{
+        margin-top: 5vh;
+    }
+
+    #census{
+        margin-top: 5vh;
+    }
+
+    #map{
+        margin-top: 5vh;
+    }
+}
+
+.mobile {
 
 }
 

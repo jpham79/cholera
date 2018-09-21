@@ -516,6 +516,12 @@ let ctable = () => {
 //     Plotly.Plots.resize(ctable());
 // };
 
+function menu() {
+    $('.sidebar')
+  .sidebar('toggle')
+;
+}
+
 function modal() {
     $('.ui.basic.modal')
   .modal('show')
