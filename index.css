@@ -1,35 +1,47 @@
-.section {
-    position: relative;
-    height: 100%;
-    width: 100%;
+body {
+
 }
 
-.section2 {
-    position: relative;
-    height: 50%;
-    width: 100%;
-}
+#attacks {
 
-.frame {
-    position: absolute;
-    height: 80%;
-    width: 100%;
 }
 
 #fatalities {
-    display: none;
+    
+}
+
+/* #flex {
+    display: flex;
 }
 
 #census {
-    display: none;
+    
 }
+
+#pieM{
+    flex: 50%;
+}
+
+#pieF{
+    flex: 50%;
+} */
 
 #map {
-    display: none;
+    
 }
 
-#censusTable {
-    display: none;
+#pieM {
+    flex: 50%;
+}
+
+#pieF {
+    flex: 50%;
+}
+
+#mapPlot {
+    margin-left: 10%;
+    height: 50vh;
+    width: 80%;
 }
 
 #about {
