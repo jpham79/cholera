@@ -231,15 +231,15 @@ let attacksTable = (contents) => {
         header: {
           values: [["Date"], ["Attacks"], ["Deaths"], ["Total Incidents"], ["Cumulative Attacks"], ["Cumulative Deaths"]],
           align: "center",
-          line: {width: 1, color: 'rgb(50, 50, 50)'},
-          fill: {color: ['rgb(46, 50, 54)']},
-          font: {family: "Arial", size: 14, color: "white"}
+          line: {width: 1, color: 'rgba(50, 50, 50, .6)'},
+          fill: {color: ['rgba(46, 50, 54, .4)']},
+          font: {family: "calibri", size: 14, color: "white"}
         },
         cells: {
           values: contents,
           align: "center",
-          line: {color: "black", width: 1},
-          font: {family: "Arial", size: 11, color: ["black"]}
+          line: {color: "grey", width: 1},
+          font: {family: "calibri", size: 11, color: ["black"]}
         }
       }]
 
@@ -282,22 +282,22 @@ let fatalitiesBar = (contents) => {
 }
 
 let fatalitiesTable = (contents) => {
-    let name = [["Age"], ["Male Deaths"], ["Female Deaths"]];
+    let name = [["Ages"], ["Male Deaths"], ["Female Deaths"]];
 
     let info = [{
         type: 'table',
         header: {
           values: name,
           align: "center",
-          line: {width: 1, color: 'rgb(50, 50, 50)'},
-          fill: {color: ['rgb(46, 50, 54)']},
-          font: {family: "Arial", size: 14, color: "white"}
+          line: {width: 1, color: 'rgba(50, 50, 50, .6)'},
+          fill: {color: ['rgba(46, 50, 54, .4)']},
+          font: {family: "calibri", size: 14, color: "white"}
         },
         cells: {
           values: contents,
           align: "center",
-          line: {color: "black", width: 1},
-          font: {family: "Arial", size: 11, color: ["black"]}
+          line: {color: "grey", width: 1},
+          font: {family: "calibri", size: 11, color: ["black"]}
         }
       }]
 
@@ -382,22 +382,22 @@ let censusBar = (contents) => {
 }
 
 let censusTable = (contents) => {
-    let name = ["Age", "Males", "Females", "Combined Population"];
+    let name = ["Ages", "Males", "Females", "Combined Population"];
     
     let info = [{
         type: 'table',
         header: {
           values: name,
           align: "center",
-          line: {width: 1, color: 'rgb(50, 50, 50)'},
-          fill: {color: ['rgb(46, 50, 54)']},
-          font: {family: "Arial", size: 14, color: "white"}
+          line: {width: 1, color: 'rgba(50, 50, 50, .6)'},
+          fill: {color: ['rgba(46, 50, 54, .4)']},
+          font: {family: "calibri", size: 14, color: "white"}
         },
         cells: {
           values: contents,
           align: "center",
-          line: {color: "black", width: 1},
-          font: {family: "Arial", size: 11, color: ["black"]}
+          line: {color: "grey", width: 1},
+          font: {family: "calibri", size: 11, color: ["black"]}
         }
       }]
 
