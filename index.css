@@ -1,46 +1,92 @@
 body {
-
+    background-color: rgb(128, 128, 128);;
 }
 
-#attacks {
-
+#mobile {
+    display:none;
 }
 
-#fatalities {
-    
+.white {
+    background-color: white;
 }
 
-/* #flex {
-    display: flex;
+.ui.segment {
+    background-color: rgb(217, 217, 217)
 }
 
-#census {
-    
+.ui.segment.grid {
+    background-color: white;
 }
 
-#pieM{
-    flex: 50%;
+#mobileTitle {
+    padding-top: 10px;
 }
 
-#pieF{
-    flex: 50%;
-} */
+@media (max-width: 699px) {
+        #mobile {
+            display: block;
+        }
 
-#map {
-    
+        .ui.fixed.teal.menu {
+            display: none;
+        }
 }
 
-#pieM {
-    flex: 50%;
+@media (min-width: 6000px) {
+    #background {
+        display: grid;
+        grid-row-gap: 1vw;
+        justify-content: space-evenly;
+        grid-template-columns: 25vw 25vw 25vw 25vw;
+        grid-template-rows: 100%;
+    }
+
+    #attacksLine {
+        height: 50vh;
+        width: 100%;
+    }
+    #attacksTable {
+        height: 50vh;
+        width: 100%;
+    }
+
+    #fatalitiesBar {
+        height: 50vh;
+        width: 100%;
+    }
+    #fatalitiesTable {
+        height: 50vh;
+        width: 100%;
+    }
+
+}
+#background {
+    background-color: rgb(128, 128, 128);
 }
 
-#pieF {
-    flex: 50%;
+#attacks{
+    margin-top: 5vh;
+    height: 100%;
+}
+
+#fatalities{
+    margin-top: 5vh;
+    height: 100%;
+}
+
+#census{
+    margin-top: 5vh;
+    height: 100%;
+}
+
+#map{
+    margin-top: 5vh;
+    height: 100%;
 }
 
 #mapPlot {
     margin-left: 10%;
-    height: 50vh;
+    height: 80vh;
     width: 80%;
 }
 

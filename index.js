@@ -1,6 +1,4 @@
-let iWidth = window.innerWidth;
-
-let visibility = (obj, id) => {
+function visibility (obj, id) {
     let content = document.getElementById(id);
     let active = document.getElementsByClassName("active item");
     switch (active[0].id) {
@@ -44,7 +42,7 @@ let visibility = (obj, id) => {
 }
 
 //DATA PROCESSING AND UNPACKING
-let read = () => {
+function read () {
     Plotly.d3.tsv("data/choleraDeaths.tsv", (data) => { processAttacks(data) } );
     Plotly.d3.tsv("data/naplesCholeraAgeSexData.tsv", (data) => { processFatalities(data) } );
     Plotly.d3.csv("data/UKcensus1851.csv", (data) => { processCensus(data) } );
@@ -52,11 +50,11 @@ let read = () => {
     Plotly.d3.csv("data/choleraPumpLocations.csv", (data) => { processPump(data) });
 }
 
-let unpack = (rows, key) => {
+function unpack (rows, key) {
     return rows.map((row) => {return row[key];});
 }
 
-let processAttacks = (data) => {
+function processAttacks (data) {
     let atotal = [];
     let dtotal = [];
     let contents = [];
@@ -85,7 +83,7 @@ let processAttacks = (data) => {
     attacksTable(contents);
 }
 
-let processFatalities = (data) => {
+function processFatalities (data) {
 
     let contents = [];
     let header = [["age"], ["male"], ["female"]];
@@ -99,7 +97,7 @@ let processFatalities = (data) => {
     fatalitiesBar(contents);
 }
 
-let processCensus = (data) => {
+function processCensus (data) {
 
     let contents = [];
     let total = [];
@@ -133,7 +131,7 @@ let processCensus = (data) => {
     censusTable(contents);
 }
 
-let processDeath = (data) => {
+function processDeath (data) {
     let contents = [];
     let header = [["deaths"], ["long"], ["lat"]];
     
@@ -154,7 +152,7 @@ let processDeath = (data) => {
     
 }
 
-let processPump = (data) => {
+function processPump (data) {
     let contents = [];
     let header = [["long"], ["lat"]];
     
@@ -176,7 +174,12 @@ let processPump = (data) => {
 }
 
 //PLOTTING THE STUFF
-
+// xaxis: {
+//     title: ''
+// },
+// yaxis: {
+//     title: ''
+// }
 let attacksLine = (contents) => {
     let trace1= {
         x: contents[0],
@@ -207,7 +210,13 @@ let attacksLine = (contents) => {
     };
 
     let layout = {
-        title: "Cholera Attacks and Deaths"
+        title: "Cholera Attacks and Deaths",
+        xaxis: {
+            title: 'Date'
+        },
+        yaxis: {
+            title: '# of People'
+        }
     };
 
     let lines = [trace1, trace2, trace3, trace4];
@@ -258,7 +267,13 @@ let fatalitiesBar = (contents) => {
 
     let layout = {
         title: 'Cholera Deaths in Naples',
-        barmode: 'group'
+        barmode: 'group',
+        xaxis: {
+            title: 'Age Range'
+        },
+        yaxis: {
+            title: '# of Deaths'
+        }
     };
 
     let bars = [trace1, trace2];
@@ -287,8 +302,7 @@ let fatalitiesTable = (contents) => {
       }]
 
       layout = {
-          title: "Cholera Deaths in Naples Data",
-          width: iWidth
+          title: "Cholera Deaths in Naples Data"
       };
      
       Plotly.newPlot('fatalitiesTable', info, layout);
@@ -353,7 +367,13 @@ let censusBar = (contents) => {
 
     let layout = {
         title: 'Population by Age and Gender',
-        barmode: 'group'
+        barmode: 'group',
+        xaxis: {
+            title: 'Age Range'
+        },
+        yaxis: {
+            title: 'Population'
+        }
     };
 
     let bars = [trace1, trace2];
@@ -383,126 +403,140 @@ let censusTable = (contents) => {
 
       layout = {
           title: "UK Census Age Data 1851",
-          width: iWidth,
-          autoresize: true
+          autosize: true,
+          responsive: true
       };
      
       Plotly.newPlot('censusTable', info, layout);
 
 }
 
+function menu() {
+    $('.sidebar')
+  .sidebar('toggle')
+;
+}
+
+function modal() {
+    $('.ui.basic.modal')
+  .modal('show')
+;
+}
+
+read();
+
 //RESPONSIVE STUFF
 
-let width = 100;
-let height = 100;
+// let width = 100;
+// let height = 100;
 
-let aline = () => {
-    let line = document.getElementById('attacksLine');  
-    let x = Plotly.d3.select(line)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
+// let aline = () => {
+//     let line = document.getElementById('attacksLine');  
+//     let x = Plotly.d3.select(line)
+//         .style({
+//             width: width + '%',
+//             'margin-left': (100 - width) / 2 + '%',    
+//             height: height + 'vh'
+//         });
 
-    return x.node();
-}
+//     return x.node();
+// }
 
-let atable = () => {
-    let table = document.getElementById('attacksTable');
-    let x = Plotly.d3.select(table)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
+// let atable = () => {
+//     let table = document.getElementById('attacksTable');
+//     let x = Plotly.d3.select(table)
+//         .style({
+//             width: width + '%',
+//             'margin-left': (100 - width) / 2 + '%',    
+//             height: height + 'vh'
+//         });
 
-    return x.node();
-}
+//     return x.node();
+// }
 
-let fbar = () => {
-    let bar = document.getElementById('fatalitiesBar');
-    let x = Plotly.d3.select(bar)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
+// let fbar = () => {
+//     let bar = document.getElementById('fatalitiesBar');
+//     let x = Plotly.d3.select(bar)
+//         .style({
+//             width: width + '%',
+//             'margin-left': (100 - width) / 2 + '%',    
+//             height: height + 'vh'
+//         });
 
-    return x.node();
-}
+//     return x.node();
+// }
 
-let ftable = () => {
-    let table = document.getElementById('fatalitiesTable');
-    let x = Plotly.d3.select(table)
-        .style({
-            width: width + '%',
-            'margin-left': (100 - width) / 2 + '%',    
-            height: height + 'vh'
-        });
+// let ftable = () => {
+//     let table = document.getElementById('fatalitiesTable');
+//     let x = Plotly.d3.select(table)
+//         .style({
+//             width: width + '%',
+//             'margin-left': (100 - width) / 2 + '%',    
+//             height: height + 'vh'
+//         });
 
-    return x.node();
-}
+//     return x.node();
+// }
 
-let pieM = () => {
-    let pieM = document.getElementById('pieM');
-    let x = Plotly.d3.select(pieM)
-        .style({
-            width: width + '%',    
-            height: height + 'vh'
-        });
+// let pieM = () => {
+//     let pieM = document.getElementById('pieM');
+//     let x = Plotly.d3.select(pieM)
+//         .style({
+//             width: width + '%',    
+//             height: height + 'vh'
+//         });
 
-    return x.node();
-}
+//     return x.node();
+// }
 
-let pieF = () => {
-    let pieF = document.getElementById('pieF');
-    let x = Plotly.d3.select(pieF)
-        .style({
-            width: width + '%',   
-            height: height + 'vh'
-        });
+// let pieF = () => {
+//     let pieF = document.getElementById('pieF');
+//     let x = Plotly.d3.select(pieF)
+//         .style({
+//             width: width + '%',   
+//             height: height + 'vh'
+//         });
 
-    return x.node();
-}
+//     return x.node();
+// }
 
-let pieT = () => {
-    if (window.innerWidth < 1000 + 'px') {
-        width = 100, height = 50;
-    }
+// let pieT = () => {
+//     if (window.innerWidth < 1000 + 'px') {
+//         width = 100, height = 50;
+//     }
 
-    let pieT = document.getElementById('pieT');
-    let x = Plotly.d3.select(pieT)
-        .style({
-            width: width + '%',   
-            height: height + 'vh'
-        });
+//     let pieT = document.getElementById('pieT');
+//     let x = Plotly.d3.select(pieT)
+//         .style({
+//             width: width + '%',   
+//             height: height + 'vh'
+//         });
 
-    return x.node();
-}
+//     return x.node();
+// }
 
-let cbar = () => {
-    let bar = document.getElementById('censusBar');
-    let x = Plotly.d3.select(bar)
-        .style({
-            width: width + '%',   
-            height: height + 'vh'
-        });
+// let cbar = () => {
+//     let bar = document.getElementById('censusBar');
+//     let x = Plotly.d3.select(bar)
+//         .style({
+//             width: width + '%',   
+//             height: height + 'vh'
+//         });
 
-    return x.node();
-}
+//     return x.node();
+// }
 
-let ctable = () => {
-    let width = 100, height = 50;
-    let table = document.getElementById('censusTable');
-    let x = Plotly.d3.select(table)
-        .style({
-            width: width + '%',  
-            height: height + 'vh'
-        });
+// let ctable = () => {
+//     let width = 100, height = 50;
+//     let table = document.getElementById('censusTable');
+//     let x = Plotly.d3.select(table)
+//         .style({
+//             width: width + '%',  
+//             height: height + 'vh'
+//         });
 
-    return x.node();
-}
+//     return x.node();
+// }
 
 // window.onresize = function() {
 //     Plotly.Plots.resize(aline());
@@ -516,11 +550,5 @@ let ctable = () => {
 //     Plotly.Plots.resize(ctable());
 // };
 
-function modal() {
-    $('.ui.basic.modal')
-  .modal('show')
-;
-}
 
-read();
 
