@@ -37,25 +37,42 @@ body {
         display: grid;
         grid-row-gap: 1vw;
         justify-content: space-evenly;
-        grid-template-columns: 25vw 25vw 25vw 25vw;
-        grid-template-rows: 100%;
+        overflow: wrap;
+        grid-template-columns: 33vw 33vw 33vw;
+        grid-template-rows: 50vh;
     }
 
+    section.ui.segment {
+        height: 0px;
+    }
+
+    #census {
+        z-index: 1;
+    }
+
+    #map {
+        z-index: 0;
+        width: 100vw;
+    }
+
+
+
+
     #attacksLine {
-        height: 50vh;
+        height: 50%;
         width: 100%;
     }
     #attacksTable {
-        height: 50vh;
+        height: 50%;
         width: 100%;
     }
 
     #fatalitiesBar {
-        height: 50vh;
+        height: 75%;
         width: 100%;
     }
     #fatalitiesTable {
-        height: 50vh;
+        height: 25%;
         width: 100%;
     }
 
